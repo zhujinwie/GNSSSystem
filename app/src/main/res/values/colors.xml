@@ -3,4 +3,17 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="tabTextColor">#5B5B5B</color>
+    <color name="tabBackground">#C5CAE9</color>
+    <color name="barColorRed">#CA0C0E</color>
+    <color name="barColorGreen">#5F7825</color>
+    <color name="barColorBlue">#08A3DB</color>
+    <color name="barColorGray">#AFD0D7</color>
+    <color name="snrFragmentBackGround">#CEDEF5</color>
+    <color name="snrViewBackGround">#3F3F3F</color>
+    <color name="bd_color">#0200FA</color>
+    <color name="glo_color">#00FF00</color>
+    <color name="gps_color">#FE0000</color>
+    <color name="text_color_starview">#5B5A5C</color>
+    <color name="dash_line_color">#A86F97</color>
 </resources>

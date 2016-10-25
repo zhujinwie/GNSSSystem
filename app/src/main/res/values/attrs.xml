@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="TabItemView">
-        <attr name="tab_text_name" format="string"/>
-        <attr name="tab_text_size" format="dimension"/>
-        <attr name="tab_text_color" format="color"/>
+  <attr name="text_size" format="dimension"/>
+    <attr name="x_title" format="string"/>
+    <attr name="y_title" format="string"/>
+    <attr name="bar_color" format="color"/>
+    <attr name="bar_width" format="dimension"/>
+
+
+    <declare-styleable name="BarView">
+        <attr name="text_size"/>
+        <attr name="x_title"/>
+        <attr name="y_title"/>
+        <attr name="bar_color"/>
+        <attr name="bar_width"/>
+    </declare-styleable>
+    <declare-styleable name="StarView">
+        <attr name="gps_color" format="color"/>
+        <attr name="glo_color" format="color"/>
+        <attr name="bd_color" format="color"/>
+        <attr name="mark_text_size" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="ChannelControlView">
+        <attr name="littel_radius" format="dimension"/>
+        <attr name="indicatrix_line" format="dimension"/>
+
     </declare-styleable>
 </resources>

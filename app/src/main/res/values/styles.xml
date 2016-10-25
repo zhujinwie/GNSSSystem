@@ -6,6 +6,60 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
+    <style name="TabLayoutTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">@dimen/text_20_sp</item>
+    </style>
+        
+        <style name="GridLayoutTextStyle">
+            <item name="android:textColor">@color/text_color_starview</item>
+            <item name="android:textSize">@dimen/text_20_sp</item>
+            <item name="android:layout_marginLeft">4dp</item>
+            <item name="android:layout_marginBottom">5dp</item>
+            <item name="android:layout_marginTop">5dp</item>
+            <item name="android:layout_gravity">center_vertical</item>
+            <item name="android:layout_width">wrap_content</item>
+            <item name="android:layout_height">wrap_content</item>
+        </style>
+
+    <style name="GridLayoutValueTextStyle">
+        <item name="android:textColor">@color/text_color_starview</item>
+        <item name="android:textSize">@dimen/text_20_sp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@drawable/bg_value_tv</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">30dp</item>
+    </style>
+    <style name="ButtonStyle">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/bg_button_ccv</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="CCVStyle">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">120dp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:layout_alignParentBottom">true</item>
+    </style>
+    <style name="CCVTextViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:text">衰减(db):</item>
+        <item name="android:layout_marginLeft">200dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+    </style>
+    <style name="CCVTitleStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginLeft">45dp</item>
+    </style>
 </resources>
+
