@@ -76,10 +76,10 @@ public class ChannelControlView extends View{
        width= getWidth();
        heigth=getHeight();
         if(width>heigth){
-            bigRadius=heigth/2;
+            bigRadius=heigth/2-5;
         }
         else{
-            bigRadius=width/2;
+            bigRadius=width/2-5;
         }
         bigRadialGradient=new RadialGradient(width/2,heigth/2,bigRadius,Color.rgb(255,255,255),Color.rgb(220,220,220), Shader.TileMode.REPEAT);
         littleRadialGradient=new RadialGradient(width/2-(float)((bigRadius-l-littleRadius)*Math.sin(angle)),heigth/2+(float)((bigRadius-l-littleRadius)*Math.cos(angle)),littleRadius,Color.rgb(225,225,225),Color.rgb(215,215,215),Shader.TileMode.REPEAT);
@@ -109,6 +109,17 @@ public class ChannelControlView extends View{
         x=motionEvent.getX();
         y=motionEvent.getY();
 
+        //增加有效区域，防止出现NaN
+        if((x>width)|(y>heigth)){
+            invalidate();
+            return true;
+        }
+        if((x==width/2)&(y==heigth/2)){
+            invalidate();
+            return true;
+        }
+
+
         Log.d("TAG","xyz onTouch()触发了！"+"x="+x+";y="+y);
         switch (motionEvent.getAction()){
             case MotionEvent.ACTION_DOWN:
@@ -132,21 +143,19 @@ public class ChannelControlView extends View{
                     //顺时针
                    varAngle=Math.acos(((startPointX-width/2)*(x-width/2)+(startPointY-heigth/2)*(y-heigth/2))/(a*b));
                    angle+=varAngle;
-                   angle=angle%Math.PI;
+                   angle=angle%(2*Math.PI);
                     value+=varAngle;
                     Log.d("TAG","xyz 顺时针拖动"+";varAngel="+varAngle);
                 }
                 else if(slope==0){
                     //同向拖动
                     Log.d("TAG","xyz slope==0轴向拖动执行了!");
-
-
                 }
                 else{
                     //逆时针
                     varAngle=Math.acos(((startPointX-width/2)*(x-width/2)+(startPointY-heigth/2)*(y-heigth/2))/(a*b));
                     angle-=varAngle;
-                    angle=angle%Math.PI;
+                    angle=angle%(2*Math.PI);
                     value-=varAngle;
                     Log.d("TAG","逆时针拖动"+";varAngel="+varAngle);
                 }
@@ -161,7 +170,7 @@ public class ChannelControlView extends View{
                 isMoving=false;
                 invalidate();
                 //TODO 添加输出value
-                Log.d("TAG","xyz value="+String.valueOf(value));
+                Log.d("TAG","xyz value="+String.valueOf(value%(2*Math.PI)));
                 value=0;
                 break;
         }
