@@ -21,7 +21,9 @@ import com.navgnss.gnsssystem.fragment.MyFragment;
 import com.navgnss.gnsssystem.fragment.SNR_Fragment;
 import com.navgnss.gnsssystem.fragment.StarMap_Fragment;
 
-public class MainActivity extends AppCompatActivity {
+import android_serialport_api.SerialPortActivity;
+
+public class MainActivity extends SerialPortActivity {
     TabLayout mTabLayout;
     ViewPager mViewPager;
     MyFragmentAdapter adapter;
@@ -32,6 +34,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+
+
+    }
+    //TODO 接受到串口数据时调用该方法，
+    @Override
+    protected void onDataReceived(byte[] buffer, int size) {
+
+
+
+
+
+
 
 
     }
@@ -64,31 +78,12 @@ public class MainActivity extends AppCompatActivity {
             else{
                 mTabLayout.addTab(mTabLayout.newTab().setText(titles[i]),false);
             }
-            // Log.d("TAG","xyz tab.getText()="+mTabLayout.getTabAt(i).getText());
         }
 
        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                //String title= (String) tab.getText();
                mViewPager.setCurrentItem(tab.getPosition());
-                /*switch (title){
-                    case "载噪比":
-                        mViewPager.setCurrentItem(0);
-                        break;
-                    case "星座定位":
-                        mViewPager.setCurrentItem(1);
-                        break;
-                    case "通道设置":
-                        mViewPager.setCurrentItem(2);
-                        break;
-                    case "帮助":
-                        mViewPager.setCurrentItem(3);
-                        break;
-                    case "关于":
-                        mViewPager.setCurrentItem(4);
-                        break;
-                }*/
             }
 
             @Override
