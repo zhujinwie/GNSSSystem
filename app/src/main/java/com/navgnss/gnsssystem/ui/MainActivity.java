@@ -1,15 +1,22 @@
 package com.navgnss.gnsssystem.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 
 import com.navgnss.gnsssystem.R;
 
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,15 +27,19 @@ import com.navgnss.gnsssystem.fragment.Infomation_Fragment;
 import com.navgnss.gnsssystem.fragment.MyFragment;
 import com.navgnss.gnsssystem.fragment.SNR_Fragment;
 import com.navgnss.gnsssystem.fragment.StarMap_Fragment;
+import com.navgnss.gnsssystem.service.UpdateDataService;
 
 import android_serialport_api.SerialPortActivity;
 
-public class MainActivity extends SerialPortActivity {
+
+public class MainActivity extends AppCompatActivity {
     TabLayout mTabLayout;
     ViewPager mViewPager;
     MyFragmentAdapter adapter;
     List<MyFragment> fragments;
     List<String> titles;
+    public static final String ACTION_UPDATEUI="action_updateui";
+    UpdateUIBroadcastReceiver broadcastReceiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,10 +47,21 @@ public class MainActivity extends SerialPortActivity {
         initView();
 
 
+
+       Intent intent=new Intent(this, UpdateDataService.class);
+        startService(intent);
+
+
+        //动态注册
+        IntentFilter filter=new IntentFilter();
+        filter.addAction(ACTION_UPDATEUI);
+        broadcastReceiver=new UpdateUIBroadcastReceiver();
+        registerReceiver(broadcastReceiver,filter);
     }
-    //TODO 接受到串口数据时调用该方法，
-    @Override
+
+   /* @Override
     protected void onDataReceived(byte[] buffer, int size) {
+        Toast.makeText(this,"收到数据了",Toast.LENGTH_SHORT).show();
 
 
 
@@ -47,8 +69,7 @@ public class MainActivity extends SerialPortActivity {
 
 
 
-
-    }
+    }*/
 
     private void initView() {
         fragments=new ArrayList<>();
@@ -109,4 +130,22 @@ public class MainActivity extends SerialPortActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        Intent intent=new Intent(this,UpdateDataService.class);
+        stopService(intent);
+        super.onDestroy();
+    }
+
+    public class UpdateUIBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //接受到广播后更新UI
+            Log.d("TAG","xyz main收到广播："+intent.getByteArrayExtra("data"));
+        }
+    }
+
+
 }

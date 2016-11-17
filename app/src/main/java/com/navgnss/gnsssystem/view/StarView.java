@@ -124,11 +124,11 @@ public class StarView extends View implements UpdateCoordListener {
         canvas.drawCircle(mRect.centerX(),mRect.centerY(),radius/3,linePaint);
         //绘制3个mark示范
         markPaint.setColor(bdColor);
-        canvas.drawCircle(mRect.right-40,mRect.top+40,20,markPaint);
+        canvas.drawCircle(mRect.right-40,mRect.top+40,30,markPaint);
         markPaint.setColor(gpsColor);
-        canvas.drawCircle(mRect.left+40,mRect.top+40,20,markPaint);
+        canvas.drawCircle(mRect.left+40,mRect.top+40,30,markPaint);
         markPaint.setColor(gloColor);
-        canvas.drawCircle(mRect.left+40,mRect.bottom-40,20,markPaint);
+        canvas.drawCircle(mRect.left+40,mRect.bottom-40,30,markPaint);
         //绘制坐标
         mPath.reset();
         mPath.moveTo(mRect.centerX()-20,mRect.centerY()-radius-10);
@@ -193,11 +193,11 @@ public class StarView extends View implements UpdateCoordListener {
             float pointY=(float)(mRect.centerY()-radius*Math.cos(Math.PI*pit/180)*Math.cos(Math.PI*azi/180));
             float pointX=(float)(mRect.centerX()+radius*Math.cos(Math.PI*pit/180)*Math.sin(Math.PI*azi/180));
             Log.d("TAG", "xyz"+"pointY="+pointY+"pointX="+pointX+"mRectF.centerY="+mRect.centerY()+"mRectF.centerX="+mRect.centerX()+"radius="+radius);
-            canvas.drawCircle(pointX,pointY,20,markPaint);
+            canvas.drawCircle(pointX,pointY,30,markPaint);
 
             mPath.reset();
-            mPath.moveTo(pointX-20,pointY+10);
-            mPath.lineTo(pointX+20,pointY+10);
+            mPath.moveTo(pointX-30,pointY+10);
+            mPath.lineTo(pointX+30,pointY+10);
             canvas.drawTextOnPath(String.valueOf(id),mPath,0,0,textPaint);
         }
         markPaint.setColor(gloColor);

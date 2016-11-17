@@ -22,6 +22,8 @@ import java.security.InvalidParameterException;
 
 
 import android.content.SharedPreferences;
+import android.util.Log;
+
 import android_serialport_api.SerialPort;
 import android_serialport_api.SerialPortFinder;
 
@@ -31,22 +33,26 @@ public class Application extends android.app.Application {
 	private SerialPort mSerialPort = null;
 
 	public SerialPort getSerialPort() throws SecurityException, IOException, InvalidParameterException {
+		Log.d("ZJW","xyz 获取port口方法执行了");
 		if (mSerialPort == null) {
+			Log.d("zjw","xyz 新建port口");
 			/* Read serial port parameters */
 			//SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
 			/*String path = sp.getString("DEVICE", "");//指定端口
 			int baudrate = Integer.decode(sp.getString("BAUDRATE", "-1"));//指定速率*/
-			String path="/dev/ttyS2";//手动指定端口名
-			int baudrate=9600;//指定速率
+			String path="/dev/ttyS0";//手动指定端口名
+			int baudrate=115200;//指定速率
 
 
 			/* Check parameters */
 			if ( (path.length() == 0) || (baudrate == -1)) {
+				Log.d("zjw","地址或速率设置出错");
 				throw new InvalidParameterException();
 			}
 
 			/* Open the serial port */
 			mSerialPort = new SerialPort(new File(path), baudrate, 0);
+			Log.d("ZJW","xyz port口成功创建"+"地址为"+path+"速率"+baudrate);
 		}
 		return mSerialPort;
 	}

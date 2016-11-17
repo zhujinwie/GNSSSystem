@@ -26,6 +26,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.navgnss.gnsssystem.R;
 
@@ -76,18 +77,26 @@ public abstract class SerialPortActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mApplication = (Application) getApplication();
+		mReadThread=new ReadThread();
 		try {
 			mSerialPort = mApplication.getSerialPort();
 			mOutputStream = mSerialPort.getOutputStream();
 			mInputStream = mSerialPort.getInputStream();
 
 			/* Create a receiving thread */
-			mReadThread = new ReadThread();
-			mReadThread.start();
+
+			int size=0;
+			byte[] buffer = new byte[64];
+			if (mInputStream == null) return;
+			size = mInputStream.read(buffer);
+			if (size > 0) {
+				onDataReceived(buffer, size);
+			}
 		} catch (SecurityException e) {
 			DisplayError(R.string.error_security);
 		} catch (IOException e) {
 			DisplayError(R.string.error_unknown);
+			Log.d("ZJW","xyz"+e.toString());
 		} catch (InvalidParameterException e) {
 			DisplayError(R.string.error_configuration);
 		}
@@ -101,6 +110,12 @@ public abstract class SerialPortActivity extends AppCompatActivity {
 			mReadThread.interrupt();
 		mApplication.closeSerialPort();
 		mSerialPort = null;
+		try {
+			mInputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		super.onDestroy();
 	}
 }

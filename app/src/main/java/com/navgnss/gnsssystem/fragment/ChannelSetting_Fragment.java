@@ -60,5 +60,12 @@ public class ChannelSetting_Fragment extends MyFragment {
         bd1CloBtn= (Button) view.findViewById(R.id.close_bd1_btn);
         bd3CloBtn= (Button) view.findViewById(R.id.close_bd3_btn);
 
+        gpsOpenBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+
+            }
+        });
+
     }
 }

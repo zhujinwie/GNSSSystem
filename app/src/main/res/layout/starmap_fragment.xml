@@ -14,7 +14,7 @@
         <com.navgnss.gnsssystem.view.StarView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:mark_text_size="8sp"
+            app:mark_text_size="9sp"
             app:bd_color="@color/bd_color"
             app:glo_color="@color/glo_color"
             app:gps_color="@color/gps_color"
