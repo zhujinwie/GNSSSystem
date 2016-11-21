@@ -14,7 +14,9 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.navgnss.gnsssystem.R;
+import com.navgnss.gnsssystem.bean.Satellite;
 import com.navgnss.gnsssystem.ui.MainActivity;
+import com.navgnss.gnsssystem.utils.DataTools;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,13 +42,16 @@ public class UpdateDataService extends Service {
     private ReadThread mReadThread;
     private List<byte[]> bufferList;
 
+    private List<ArrayList<Satellite>> satellites ;
+    private String[] utc;
+
+
     private class ReadThread extends Thread {
 
         @Override
         public void run() {
             super.run();
 
-            int size;
             //定义数据包的最大长度
             int maxLength=2048;
             byte[] buffer = new byte[maxLength];
@@ -77,6 +82,7 @@ public class UpdateDataService extends Service {
                         mInputStream.read(buffer,currentLength,available);
                         currentLength+=available;
                         /**
+                         * TODO 测试完删除
                          * 测试用，打印数组
                          * */
                         showbuffer(buffer,available);
@@ -127,6 +133,12 @@ public class UpdateDataService extends Service {
         if(buffer.length-index<headerLength){
             return 0;
         }
+        //获取ID判断是数据帧还是状态确认帧
+        if(buffer[index+2]==0xA5){
+            //是状态确认帧，长度为8
+            return 8;
+        }
+
         //Length字段的位置
         byte a=buffer[index+3];
         byte b=buffer[index+4];
@@ -164,6 +176,9 @@ public class UpdateDataService extends Service {
     public  void  onCreate(){
         Log.d("TAG","xyz 后台服务启动！");
 
+        satellites=new ArrayList<>();
+        utc=new String[15];
+
         bufferList=new ArrayList<>();
         mApplication = (Application) getApplication();
         try {
@@ -191,9 +206,46 @@ public class UpdateDataService extends Service {
 
         byte[] buf=new byte[packlen];
         System.arraycopy(buffer,index,buf,0,packlen);
+
+        //TODO 测试用，打印经过处理后的buf[]数组内的有效元素
         for(int i=0;i<packlen;i++){
             Log.d("DATA","xyz buf"+"["+i+"]"+"="+buf[i]);
         }
+
+        //判断接受到的数据是MeasEpoch帧，PVT帧，或者调试确认帧
+        if(packlen==8){
+            //按照调试确认帧处理数据
+            //取3，4位拼接得到确认值
+            byte a=buf[3];
+            byte b=buf[4];
+            int rlt=0;
+            //TODO 可能有补码的判断
+            char[] tmp=new char[2];
+            tmp[0]=(char)b;
+            tmp[1]=(char) a;
+            String s=new String(tmp,0,2);
+            rlt=Integer.parseInt(s,16);
+
+            if(rlt==0xFFFF){
+                //接收正确
+            }
+            else{
+                //接收错误
+            }
+        }
+        //TODO 设定ID值为0x00是MeasEpoch帧，0xff是PVT帧，实际需要重新设定
+        else if(buf[2]==0x00){
+            //按照MeasEpoch帧处理,得到卫星数据
+            satellites=DataTools.getSatellites(buf, packlen);
+        }
+        else if(buf[2]==0xff){
+            //按照PVT帧处理
+        }
+        else {
+            //TODO 类型不对，可能有后续处理
+            return;
+        }
+
 
     }
 
@@ -219,7 +271,7 @@ public class UpdateDataService extends Service {
     }
 
     /**
-     * 测试用 ，打印数组
+     * TODO 测试用 ，打印数组
      * */
     public void showbuffer(byte[] buffer,int ava){
         for(int i=0;i<ava;i++){
